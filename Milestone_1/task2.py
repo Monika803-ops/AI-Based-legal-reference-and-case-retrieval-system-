@@ -59,7 +59,7 @@ def load_hf_dataset(dataset_name="NahOR102/Indian-IPC-Laws", split="train"):
 # -------- Main ----------
 if __name__ == "__main__":
     project_root = os.path.dirname(os.getcwd())
-    output_folder = os.path.join(project_root, "output_json")
+    output_folder = os.path.join(project_root, "task2_output")
     os.makedirs(output_folder, exist_ok=True)
 
     

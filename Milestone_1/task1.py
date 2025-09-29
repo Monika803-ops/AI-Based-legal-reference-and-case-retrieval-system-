@@ -62,7 +62,7 @@ if __name__ == "__main__":
     base_dir = Path(__file__).parent
 
     input_folder = base_dir.parent / "data"
-    output_folder = base_dir.parent / "output"
+    output_folder = base_dir.parent / "task1_output"
     output_folder.mkdir(exist_ok=True)
 
     if not input_folder.exists():

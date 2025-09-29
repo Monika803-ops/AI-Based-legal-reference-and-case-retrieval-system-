@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
     # Output folders
     output_folder = base_dir.parent / "output"
-    embedding_folder = base_dir.parent / "output_embeddings"
+    embedding_folder = base_dir.parent / "task3_output"
     output_folder.mkdir(exist_ok=True)
     embedding_folder.mkdir(exist_ok=True)
 
