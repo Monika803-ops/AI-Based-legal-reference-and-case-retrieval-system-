@@ -2,10 +2,11 @@ streamlit
 bcrypt
 langchain
 langchain-community
+langchain-huggingface
+langchain-pinecone
 pypdf
 docx2txt
 datasets
-openai
 pinecone
+openai
 python-dotenv
-langchain-huggingface
