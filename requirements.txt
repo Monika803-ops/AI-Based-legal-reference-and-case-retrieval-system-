@@ -1,5 +1,10 @@
+streamlit
+bcrypt
 langchain
 langchain-community
 pypdf
 docx2txt
 datasets
+openai
+pinecone
+python-dotenv
