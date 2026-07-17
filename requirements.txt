@@ -1,6 +1,6 @@
 streamlit
 bcrypt
-langchain
+langchain 0.3.27
 langchain-community
 langchain-huggingface
 langchain-pinecone
@@ -10,4 +10,4 @@ datasets
 pinecone
 openai
 python-dotenv
-langchain-core
+langchain-core==0.3.76
