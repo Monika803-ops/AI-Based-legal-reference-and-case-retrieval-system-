@@ -8,3 +8,4 @@ datasets
 openai
 pinecone
 python-dotenv
+langchain-huggingface
