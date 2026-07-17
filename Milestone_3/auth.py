@@ -148,16 +148,28 @@ def create_user(first_name, last_name, email, password, profile_pic=None):
 
 
 def verify_user(email, password):
-    """Verify user credentials (with hashed password check)"""
+    """Verify user credentials with proper bcrypt hash checking"""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
     user = cursor.fetchone()
     conn.close()
 
-    if user and bcrypt.checkpw(password.encode('utf-8'), user[4]):  # user[4] = password column
+    if not user:
+        return None  # user not found
+
+    stored_hash = user[4]  # password column
+
+    # Ensure stored_hash is bytes (SQLite sometimes returns str)
+    if isinstance(stored_hash, str):
+        stored_hash = stored_hash.encode('utf-8')
+
+    # Check hashed password match
+    if bcrypt.checkpw(password.encode('utf-8'), stored_hash):
         return user
+
     return None
+
 
 def add_background(image_file):
     """Add background image to Streamlit app"""
@@ -184,15 +196,22 @@ def get_user_by_email(email):
     user = cursor.fetchone()
     conn.close()
     return user
-
 def update_user(email, first_name, last_name, new_email, new_password=None, profile_pic=None):
-    """Update user details (hash new password if provided)"""
+    """Update user details (hash new password only if it's a new plain password)"""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
-    # Hash new password if provided
-    hashed_pw = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()) if new_password else None
+    # Only hash if new_password is a *new plain string*, not already bytes
+    if new_password:
+        if isinstance(new_password, bytes):
+            # Already hashed (don’t rehash)
+            hashed_pw = new_password
+        else:
+            hashed_pw = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+    else:
+        hashed_pw = None
 
+    # Update depending on provided values
     if new_password and profile_pic is not None:
         cursor.execute("""
             UPDATE users SET first_name=?, last_name=?, email=?, password=?, profile_pic=?
@@ -216,6 +235,7 @@ def update_user(email, first_name, last_name, new_email, new_password=None, prof
     
     conn.commit()
     conn.close()
+
 
 # ---------------- STYLING ----------------
 def apply_dark_theme():
