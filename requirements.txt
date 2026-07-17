@@ -10,3 +10,4 @@ datasets
 pinecone
 openai
 python-dotenv
+langchain-core
